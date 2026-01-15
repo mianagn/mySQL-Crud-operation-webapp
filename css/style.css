@@ -1,4 +1,4 @@
-/* Modern Religious Management App - Professional Design */
+/* Styling file for the application */
 
 * {
     margin: 0;
@@ -7,7 +7,7 @@
 }
 
 :root {
-    /* Primary Colors - Deep Blue with Purple Accents */
+    /* Primary Colors*/
     --primary: #4f46e5;
     --primary-dark: #4338ca;
     --primary-light: #6366f1;

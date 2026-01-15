@@ -7,9 +7,9 @@
 -- ============================================
 
 -- Δημιουργία Βάσης Δεδομένων με όνομα 'thriskeia'
-CREATE DATABASE IF NOT EXISTS thriskeia CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS student_2511 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-USE thriskeia;
+USE student_2511;
 
 -- Απαραίτητο για καθαρή επανεκκίνηση (Διαγραφή πινάκων, views, procedures, triggers)
 DROP TABLE IF EXISTS KATIXITIKO_PISTON;
@@ -28,7 +28,7 @@ DROP TRIGGER IF EXISTS trig_update_arithmos_naon_insert;
 DROP TRIGGER IF EXISTS trig_update_arithmos_naon_delete;
 
 -- ============================================
--- 1. ZITOUMENO 2: ΔΗΜΙΟΥΡΓΙΑ ΠΙΝΑΚΩΝ
+-- ΖΗΤΟΥΜΕΝΟ 2: ΔΗΜΙΟΥΡΓΙΑ ΠΙΝΑΚΩΝ
 -- ============================================
 
 -- Πίνακας Ενοριών
@@ -114,7 +114,7 @@ CREATE TABLE KATIXITIKO_PISTON (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ============================================
--- 2. ZITOUMENO 3: ΕΙΣΑΓΩΓΗ ΔΕΔΟΜΕΝΩΝ
+-- ΖΗΤΟΥΜΕΝΟ 3: ΕΙΣΑΓΩΓΗ ΔΕΔΟΜΕΝΩΝ
 -- ============================================
 
 INSERT INTO ENORIA (kodikos_enorias, onoma_enorias, poli, arithmos_naon) VALUES
@@ -193,7 +193,7 @@ INSERT INTO KATIXITIKO_PISTON (kodikos_pistou, kodikos_katihitikou) VALUES
 (1007, 5);
 
 -- ============================================
--- 3. ZITOUMENO 4: ΕΡΩΤΗΜΑΤΑ
+-- ΖΗΤΟΥΜΕΝΟ 4: 
 -- ============================================
 
 -- 4a. Βρίσκουμε όλους τους πιστούς που το επώνυμό τους αρχίζει από "Μ" ή περιέχει "idis". (LIKE)
@@ -232,10 +232,10 @@ WHERE (k.vathmos = 'Iereas'
 ORDER BY k.ilikia ASC;
 
 -- ============================================
--- 4. ZITOUMENO 5 & 6: ΣΥΝΑΘΡΟΙΣΤΙΚΕΣ & JOINS
+-- ΖΗΤΟΥΜΕΝΟ 5 & 6: ΣΥΝΑΘΡΟΙΣΤΙΚΕΣ & JOINS
 -- ============================================
 
--- ZITOUMENO 5a. Πόσοι πιστοί επισκέφθηκαν τον κάθε ναό. (LEFT JOIN για να εμφανίζονται και οι ναοί με 0 επισκέψεις)
+-- ΖΗΤΟΥΜΕΝΟ 5a. Πόσοι πιστοί επισκέφθηκαν τον κάθε ναό. (LEFT JOIN για να εμφανίζονται και οι ναοί με 0 επισκέψεις)
 SELECT
     n.kodikos_naou,
     n.onoma AS naos,
@@ -247,7 +247,7 @@ JOIN ENORIA e ON n.kodikos_enorias = e.kodikos_enorias
 GROUP BY n.kodikos_naou, n.onoma, e.onoma_enorias
 ORDER BY posoi_pistoi_ton_exoun_episkefthei DESC, n.onoma;
 
--- ZITOUMENO 5b. Ενορίες με συνολικό ποσό δωρεών >= 200€ (GROUP BY & HAVING)
+-- ΖΗΤΟΥΜΕΝΟ 5b. Ενορίες με συνολικό ποσό δωρεών >= 200€ (GROUP BY & HAVING)
 SELECT
     e.kodikos_enorias,
     e.onoma_enorias,
@@ -261,7 +261,7 @@ GROUP BY e.kodikos_enorias, e.onoma_enorias, e.poli
 HAVING SUM(d.poso) >= 200
 ORDER BY synoliko_poso_ewro DESC;
 
--- ZITOUMENO 6a. Συνολικό ποσό δωρεών ανά Ναό (INNER JOIN)
+-- ΖΗΤΟΥΜΕΝΟ 6a. Συνολικό ποσό δωρεών ανά Ναό (INNER JOIN)
 SELECT
     n.kodikos_naou,
     n.onoma AS naos,
@@ -274,7 +274,7 @@ JOIN ENORIA e ON n.kodikos_enorias = e.kodikos_enorias
 GROUP BY n.kodikos_naou, n.onoma, e.onoma_enorias
 ORDER BY synoliko_poso DESC;
 
--- ZITOUMENO 6b. Πόσοι πιστοί επισκέφθηκαν τον κάθε ναό (LEFT JOIN)
+-- ΖΗΤΟΥΜΕΝΟ 6b. Πόσοι πιστοί επισκέφθηκαν τον κάθε ναό (LEFT JOIN)
 SELECT
     n.kodikos_naou,
     n.onoma AS naos,
@@ -287,7 +287,7 @@ GROUP BY n.kodikos_naou, n.onoma, e.onoma_enorias
 ORDER BY posoi_pistoi_episkeftikan DESC, n.onoma;
 
 -- ============================================
--- 5. ZITOUMENO 7: ΔΗΜΙΟΥΡΓΙΑ ΟΨΗΣ (VIEW)
+-- ΖΗΤΟΥΜΕΝΟ 7: ΔΗΜΙΟΥΡΓΙΑ VIEW
 -- ============================================
 
 CREATE VIEW view_episkepsimotita_naon AS
@@ -312,7 +312,7 @@ ORDER BY posoi_pistoi_episkeftikan DESC, n.onoma;
 SELECT * FROM view_episkepsimotita_naon;
 
 -- ============================================
--- 6. ZITOUMENO 8: ΔΗΜΙΟΥΡΓΙΑ ΔΙΑΔΙΚΑΣΙΑΣ (PROCEDURE)
+-- ΖΗΤΟΥΜΕΝΟ 8: ΔΗΜΙΟΥΡΓΙΑ ΔΙΑΔΙΚΑΣΙΑΣ (PROCEDURE)
 -- ============================================
 
 DELIMITER $$
@@ -342,12 +342,8 @@ END$$
 
 DELIMITER ;
 
--- ΠΑΡΑΔΕΙΓΜΑ ΚΛΗΣΗΣ ΔΙΑΔΙΚΑΣΙΑΣ
--- (Αποσχολιάστε την παρακάτω γραμμή αν θέλετε να εκτελεστεί)
--- CALL prosthiki_neas_doreas('2025-04-15', 180.00, 'Agios Petros');
-
 -- ============================================
--- 7. ZITOUMENO 9: ΔΗΜΙΟΥΡΓΙΑ ΕΝΑΥΣΜΑΤΩΝ (TRIGGERS)
+-- ΖΗΤΟΥΜΕΝΟ 9: ΔΗΜΙΟΥΡΓΙΑ TRIGGERS
 -- ============================================
 
 -- Trigger για INSERT στον NAOS: Αυξάνει τον arithmos_naon στην αντίστοιχη ENORIA

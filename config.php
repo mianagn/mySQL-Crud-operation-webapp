@@ -1,9 +1,9 @@
 <?php
 define('DB_HOST', 'localhost');
 define('DB_PORT', '3306');
-define('DB_NAME', 'thriskeia');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_NAME', 'student_2519');
+define('DB_USER', 'student_2519');
+define('DB_PASS', 'pass2519'); // same password you type in PuTTY
 
 try {
     $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);

@@ -38,9 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     
     if ($stmt->execute()) {
-        $message = isset($_POST['action']) && $_POST['action'] == 'update' 
-            ? "Η βάπτιση ενημερώθηκε επιτυχώς!" 
-            : "Η βάπτιση προστέθηκε επιτυχώς!";
+        $message = isset($_POST['action']) && $_POST['action'] == 'update' ? "Η βάπτιση ενημερώθηκε επιτυχώς!" : "Η βάπτιση προστέθηκε επιτυχώς!";
         $messageType = "success";
     } else {
         $message = "Σφάλμα: " . $conn->error;
